@@ -1,0 +1,60 @@
+# =========================
+# Python cache
+# =========================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# =========================
+# Virtual Environment
+# =========================
+venv/
+env/
+.venv/
+
+# =========================
+# IDE / Editor (VS Code)
+# =========================
+.vscode/
+.idea/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# ML / Deep Learning models
+# =========================
+*.h5
+*.keras
+*.pt
+*.pth
+*.pkl
+*.joblib
+
+# =========================
+# Data folders (keep local only)
+# =========================
+data/
+datasets/
+models/
+
+# =========================
+# Logs / outputs
+# =========================
+*.log
+logs/
+outputs/
+
+# =========================
+# Executables (like Stockfish)
+# =========================
+*.exe
+
+# =========================
+# Jupyter Notebook checkpoints
+# =========================
+.ipynb_checkpoints/
