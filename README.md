@@ -1,19 +1,8 @@
-::: {align="center"}
+
 # ♟ Chess AI --- Neural-Guided Search Engine
 
 ### A hybrid chess engine combining a ResNet-based model with classical adversarial search
 
-```{=html}
-<p>
-```
-`<a href="https://github.com/SakshamJuneja007/Chess-ai">`{=html}Repository`</a>`{=html}
-· `<a href="#-quick-demo">`{=html}Demo`</a>`{=html} ·
-`<a href="#-system-architecture">`{=html}Architecture`</a>`{=html} ·
-`<a href="#-running-the-project">`{=html}Setup`</a>`{=html} ·
-`<a href="#-engineering-notes-and-known-limitations">`{=html}Known
-limitations`</a>`{=html}
-```{=html}
-</p>
 ```
 ![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python)
 ![Neural
@@ -21,24 +10,11 @@ Network](https://img.shields.io/badge/ML-ResNet%20%2F%20CNN-orange)
 ![Search](https://img.shields.io/badge/Search-Negamax%20%2B%20Alpha--Beta-purple)
 ![Status](https://img.shields.io/badge/Project-Research%20%26%20Development-informational)
 
-**The idea:** use a neural network to help decide *which moves to
-examine first*, then use search to investigate their consequences.
-:::
 
 ------------------------------------------------------------------------
 
 ## Contents
 
-```{=html}
-<details open>
-```
-```{=html}
-<summary>
-```
-`<strong>`{=html}Click to expand the documentation map`</strong>`{=html}
-```{=html}
-</summary>
-```
 -   [Project at a glance](#-project-at-a-glance)
 -   [Quick demo](#-quick-demo)
 -   [Why a hybrid engine?](#-why-a-hybrid-engine)
@@ -58,8 +34,7 @@ examine first*, then use search to investigate their consequences.
 -   [Roadmap](#-roadmap)
 -   [Demo checklist](#-demo-checklist)
 
-```{=html}
-</details>
+
 ```
 
 ------------------------------------------------------------------------
@@ -172,15 +147,9 @@ This project explores a hybrid: use a learned signal to improve the
 order in which search considers moves, while retaining classical search
 to compare the consequences.
 
-```{=html}
-<details>
+
 ```
-```{=html}
-<summary>
-```
-`<strong>`{=html}Why move ordering matters`</strong>`{=html}
-```{=html}
-</summary>
+
 ```
 Alpha-beta pruning is most effective when promising moves are examined
 early. If a strong move quickly establishes a useful bound, the search
@@ -323,15 +292,7 @@ when Black is to move. This attempts to give the network a more
 consistent perspective: the current player is represented in the same
 relative orientation.
 
-```{=html}
-<details>
-```
-```{=html}
-<summary>
-```
-`<strong>`{=html}Why encode more than piece placement?`</strong>`{=html}
-```{=html}
-</summary>
+
 ```
 Piece placement alone does not fully describe a chess position. Castling
 rights, en-passant availability, move counters, repetition context, and
@@ -341,8 +302,7 @@ Encoding these features gives the model additional context. Their exact
 implementation and tensor compatibility should be verified against the
 model used at inference time.
 
-```{=html}
-</details>
+
 ```
 > **Source consistency note:** a source docstring reportedly mentions 22
 > channels, while the implementation allocates 23. Confirm the model's
@@ -368,15 +328,7 @@ It does **not** mean that a chess position has 4,672 legal moves. The
 search should only consider moves legal in the current position and map
 those moves into the action space.
 
-```{=html}
-<details>
-```
-```{=html}
-<summary>
-```
-`<strong>`{=html}Why use a fixed action space?`</strong>`{=html}
-```{=html}
-</summary>
+
 ```
 A neural network generally needs a consistent output shape across
 examples. A fixed action space provides one output index per
@@ -387,8 +339,7 @@ The engine then looks up scores for the legal moves available in the
 current position. Correctness depends on the encoder and decoder using
 the same action-index convention.
 
-```{=html}
-</details>
+
 ```
 **Implementation caveat:** the project also contains a separate
 `engine/move_ordering.py` with a simpler from-square/to-square
@@ -582,16 +533,7 @@ engine may never examine it in that search stage.
 At deeper plies, the supplied code uses a simpler captures-first
 fallback rather than invoking the neural model at every node.
 
-```{=html}
-<details>
 ```
-```{=html}
-<summary>
-```
-`<strong>`{=html}Design trade-off: speed versus tactical
-coverage`</strong>`{=html}
-```{=html}
-</summary>
 ```
 A small candidate set reduces inference and search work. A large
 candidate set retains more alternatives but costs more time. The best
@@ -602,8 +544,7 @@ A useful experiment is to compare identical search settings with neural
 move ordering enabled and disabled, then measure nodes searched, move
 latency, and game results over a sufficiently large test set.
 
-```{=html}
-</details>
+```
 ```
 
 ------------------------------------------------------------------------
@@ -651,16 +592,7 @@ Chess-ai/
 
 ### Module guide
 
-```{=html}
-<details>
 ```
-```{=html}
-<summary>
-```
-`<strong>`{=html}`<code>`{=html}run_engine.py`</code>`{=html} --- runner
-and configuration`</strong>`{=html}
-```{=html}
-</summary>
 ```
 The supplied runner configures the model path and calls the search to
 find a move. It currently contains an absolute Windows model path:
@@ -671,19 +603,7 @@ That path will not work on another machine without modification. Prefer
 a path relative to the project root or a configurable command-line
 argument/environment variable.
 
-```{=html}
-</details>
 ```
-```{=html}
-<details>
-```
-```{=html}
-<summary>
-```
-`<strong>`{=html}`<code>`{=html}searching.py`</code>`{=html} --- search
-orchestration`</strong>`{=html}
-```{=html}
-</summary>
 ```
 This is the core search module. The supplied code includes Negamax with
 alpha-beta, move ordering, quiescence search, tactical extensions,
@@ -693,100 +613,40 @@ It also imports `evaluate_advanced`, which is not defined in the
 supplied `evaluator.py`. Resolve that integration before treating the
 search as runnable end to end.
 
-```{=html}
-</details>
 ```
-```{=html}
-<details>
-```
-```{=html}
-<summary>
-```
-`<strong>`{=html}`<code>`{=html}encoding.py`</code>`{=html} --- board
-features`</strong>`{=html}
-```{=html}
-</summary>
 ```
 Transforms a chess position into a multi-plane tensor. It includes piece
 planes and additional state features such as castling, en passant,
 counters, attack maps, repetition, and check status. Verify that the
 resulting tensor shape matches the saved model's expected input.
 
-```{=html}
-</details>
 ```
-```{=html}
-<details>
-```
-```{=html}
-<summary>
-```
-`<strong>`{=html}`<code>`{=html}move_encoding.py`</code>`{=html} ---
-action representation`</strong>`{=html}
-```{=html}
-</summary>
 ```
 Maps chess moves into an AlphaZero-style fixed action space of 4,672
 indices. Correctness requires the encoder and decoder to agree exactly
 on how moves map to action indices.
 
-```{=html}
-</details>
 ```
-```{=html}
-<details>
-```
-```{=html}
-<summary>
-```
-`<strong>`{=html}`<code>`{=html}evaluator.py`</code>`{=html} ---
-evaluation integration`</strong>`{=html}
-```{=html}
-</summary>
 ```
 The supplied evaluator imports `ChessEngine` from `engine` and appears
 oriented toward an MCTS-style interface. That does not align cleanly
 with the Negamax search imports identified in `searching.py`. Clarify
 the intended interface and consolidate evaluation responsibilities.
 
-```{=html}
-</details>
 ```
-```{=html}
-<details>
-```
-```{=html}
-<summary>
-```
-`<strong>`{=html}`<code>`{=html}engine/model_loader.py`</code>`{=html}
---- model loading`</strong>`{=html}
-```{=html}
-</summary>
 ```
 The supplied loader contains a naming collision in which a helper
 appears to call itself recursively. Rename the imported loader or helper
 and add a small test that loads the selected model once.
 
-```{=html}
-</details>
 ```
-```{=html}
-<details>
-```
-```{=html}
-<summary>
-```
-`<strong>`{=html}Test scripts`</strong>`{=html}
-```{=html}
-</summary>
 ```
 The repository contains scripts for general testing, CNN testing, engine
 testing, Stockfish matches, and advanced chess tests. Their existence
 does not by itself establish that all tests pass. Document the command
 and expected output for each test once verified.
 
-```{=html}
-</details>
+```
 ```
 
 ------------------------------------------------------------------------
@@ -1018,15 +878,7 @@ its returned scores and decisions can be trusted.
 
 Use this checklist before showing the project to another developer.
 
-```{=html}
-<details>
 ```
-```{=html}
-<summary>
-```
-`<strong>`{=html}Runtime`</strong>`{=html}
-```{=html}
-</summary>
 ```
 -   [ ] Fresh clone instructions have been tested.
 -   [ ] Dependencies are documented.
@@ -1036,18 +888,7 @@ Use this checklist before showing the project to another developer.
     positions.
 -   [ ] Errors are reported clearly.
 
-```{=html}
-</details>
-```
-```{=html}
-<details>
-```
-```{=html}
-<summary>
-```
-`<strong>`{=html}Technical walkthrough`</strong>`{=html}
-```{=html}
-</summary>
+``
 ```
 -   [ ] Explain the 23-plane board representation.
 -   [ ] Explain how legal moves map to the 4,672-action space.
@@ -1057,18 +898,7 @@ Use this checklist before showing the project to another developer.
 -   [ ] Explain what is cached in the transposition table.
 -   [ ] Clearly distinguish measured results from estimates.
 
-```{=html}
-</details>
 ```
-```{=html}
-<details>
-```
-```{=html}
-<summary>
-```
-`<strong>`{=html}Evidence`</strong>`{=html}
-```{=html}
-</summary>
 ```
 -   [ ] Add a short actual gameplay recording.
 -   [ ] Include the exact command used to run the demo.
@@ -1076,8 +906,7 @@ Use this checklist before showing the project to another developer.
 -   [ ] Publish match count and W/D/L for Stockfish tests.
 -   [ ] State hardware and time controls for performance claims.
 
-```{=html}
-</details>
+```
 ```
 
 ------------------------------------------------------------------------
